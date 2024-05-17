@@ -204,16 +204,18 @@ class WorkspaceClient(dbclient):
         workspace_log_writer = ThreadSafeWriter(self.get_export_dir() + 'user_workspace.log', "a")
         libs_log_writer = ThreadSafeWriter(self.get_export_dir() + 'libraries.log', "a")
         dir_log_writer = ThreadSafeWriter(self.get_export_dir() + 'user_dirs.log', "a")
+        repos_log_writer = ThreadSafeWriter(self.get_export_dir() + 'repos.log', "a")
         checkpoint_item_log_set = self._checkpoint_service.get_checkpoint_key_set(
             wmconstants.WM_EXPORT, wmconstants.WORKSPACE_ITEM_LOG_OBJECT
         )
         try:
             num_of_nbs = self.log_all_workspace_items(
-                user_root, workspace_log_writer, libs_log_writer, dir_log_writer, checkpoint_item_log_set)
+                user_root, workspace_log_writer, libs_log_writer, dir_log_writer, repos_log_writer, checkpoint_item_log_set)
         finally:
             workspace_log_writer.close()
             libs_log_writer.close()
             dir_log_writer.close()
+            repos_log_writer.close()
 
         if num_of_nbs == 0:
             raise ValueError('User does not have any notebooks in this path. Please verify the case of the email')

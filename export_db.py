@@ -42,6 +42,7 @@ def main():
         print(url)
     now = str(datetime.now())
 
+    client_config["skip_large_nb"] = True
     if args.users:
         print("Export all users and groups at {0}".format(now))
         scim_c = ScimClient(client_config, checkpoint_service)
